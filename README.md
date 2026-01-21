@@ -2,7 +2,15 @@
 
 Proyecto full-stack para la gestión de una librería literaria con backend en Spring Boot y frontend en React.
 
-## 📖 Descripción del Challenge
+## � **Aplicación en Producción**
+
+**Acceso Inmediato:**
+- **Frontend**: http://3.238.201.72/
+- **Backend API**: http://3.238.201.72:8080/
+
+> **Nota**: La aplicación está desplegada y funcionando en AWS EC2. Puedes acceder directamente para explorar el sistema de gestión literaria.
+
+## �📖 Descripción del Challenge
 
 Literalura es un desafío que simula la gestión de una librería digital, permitiendo:
 - **Gestión de Autores**: Registro y consulta de información de autores
@@ -376,6 +384,14 @@ npm run dev
 ```
 
 ## 🌐 Despliegue en Producción (EC2)
+
+### 🚀 Acceso a la Aplicación en Producción
+
+**URL Principal de Producción:**
+- **Frontend**: http://3.238.201.72/
+- **Backend API**: http://3.238.201.72:8080/
+
+La aplicación está desplegada y funcionando en AWS EC2. Puedes acceder directamente a través de las URLs above para explorar el sistema de gestión literaria.
 
 ### Configuración Inicial
 
