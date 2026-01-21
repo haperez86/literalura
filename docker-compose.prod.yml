@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres-prod:
+    image: postgres:15
+    container_name: literalura-postgres-prod
+    environment:
+      POSTGRES_DB: literalura_prod
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    networks:
+      - literalura-prod-network
+    restart: unless-stopped
+
+  backend-prod:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: literalura-backend-prod
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-prod
+    networks:
+      - literalura-prod-network
+    restart: unless-stopped
+
+  frontend-prod:
+    build:
+      context: ./literalura-frontend
+      dockerfile: Dockerfile.prod
+    container_name: literalura-frontend-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend-prod
+    networks:
+      - literalura-prod-network
+    restart: unless-stopped
+
+volumes:
+  postgres_prod_data:
+
+networks:
+  literalura-prod-network:
+    driver: bridge

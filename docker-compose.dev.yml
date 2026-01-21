@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres-dev:
+    image: postgres:15
+    container_name: literalura-postgres-dev
+    environment:
+      POSTGRES_DB: literalura_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - literalura-dev-network
+
+  backend-dev:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: literalura-backend-dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-dev
+    volumes:
+      - ./backend:/app
+      - /app/target
+    networks:
+      - literalura-dev-network
+
+  frontend-dev:
+    build:
+      context: ./literalura-frontend
+      dockerfile: Dockerfile.dev
+    container_name: literalura-frontend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./literalura-frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080
+    networks:
+      - literalura-dev-network
+
+volumes:
+  postgres_dev_data:
+
+networks:
+  literalura-dev-network:
+    driver: bridge
