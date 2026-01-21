@@ -2,9 +2,12 @@ FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
+# Install Maven
+RUN apk add --no-cache maven
+
 COPY . .
 
-RUN ./mvnw clean install -DskipTests
+RUN mvn clean install -DskipTests
 
 EXPOSE 8080
 
