@@ -6,10 +6,10 @@ set -e
 echo "🚀 Iniciando despliegue a producción en EC2..."
 
 # Variables de configuración
-EC2_USER="ec2-user"
-EC2_HOST="your-ec2-ip-address"
-APP_DIR="/home/ec2-user/literalura"
-BACKUP_DIR="/home/ec2-user/backups"
+EC2_USER="ubuntu"
+EC2_HOST="3.238.201.72"
+APP_DIR="/home/ubuntu/literalura"
+BACKUP_DIR="/home/ubuntu/backups"
 
 # Crear directorio de backup si no existe
 echo "📦 Creando backup..."

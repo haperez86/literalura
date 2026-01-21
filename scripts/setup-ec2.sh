@@ -6,24 +6,24 @@ set -e
 echo "🔧 Configurando servidor EC2 para Literalura..."
 
 # Variables
-EC2_USER="ec2-user"
-EC2_HOST="your-ec2-ip-address"
-APP_DIR="/home/ec2-user/literalura"
+EC2_USER="ubuntu"
+EC2_HOST="3.238.201.72"
+APP_DIR="/home/ubuntu/literalura"
 
 # Instalar Docker y Docker Compose
 echo "📦 Instalando Docker..."
-ssh $EC2_USER@$EC2_HOST "sudo yum update -y && sudo yum install -y docker && sudo systemctl start docker && sudo systemctl enable docker"
+ssh $EC2_USER@$EC2_HOST "sudo apt update -y && sudo apt install -y docker.io && sudo systemctl start docker && sudo systemctl enable docker"
 
 echo "📦 Instalando Docker Compose..."
 ssh $EC2_USER@$EC2_HOST "sudo curl -L \"https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-\$(uname -s)-\$(uname -m)\" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose && sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose"
 
 # Crear directorio de la aplicación
 echo "📁 Creando directorios..."
-ssh $EC2_USER@$EC2_HOST "mkdir -p $APP_DIR && mkdir -p /home/ec2-user/backups"
+ssh $EC2_USER@$EC2_HOST "mkdir -p $APP_DIR && mkdir -p /home/ubuntu/backups"
 
 # Clonar repositorio
 echo "📥 Clonando repositorio..."
-ssh $EC2_USER@$EC2_HOST "cd /home/ec2-user && rm -rf literalura && git clone https://github.com/haperez86/literalura.git"
+ssh $EC2_USER@$EC2_HOST "cd /home/ubuntu && rm -rf literalura && git clone https://github.com/haperez86/literalura.git"
 
 # Configurar variables de entorno
 echo "⚙️ Configurando variables de entorno..."
@@ -34,7 +34,7 @@ EOF"
 
 # Configurar firewall
 echo "🔥 Configurando firewall..."
-ssh $EC2_USER@$EC2_HOST "sudo yum install -y firewalld && sudo systemctl start firewalld && sudo systemctl enable firewalld && sudo firewall-cmd --permanent --add-service=http && sudo firewall-cmd --permanent --add-service=https && sudo firewall-cmd --permanent --add-port=8080/tcp && sudo firewall-cmd --reload"
+ssh $EC2_USER@$EC2_HOST "sudo apt install -y ufw && sudo ufw allow 22 && sudo ufw allow 80 && sudo ufw allow 443 && sudo ufw allow 8080 && sudo ufw --force enable"
 
 # Agregar usuario al grupo docker
 echo "👤 Configurando permisos Docker..."
